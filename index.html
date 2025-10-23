@@ -1,14 +1,29 @@
-<! DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+    <!-- AR.js for A-Frame (pattern markers) -->
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <title>AR.js Pattern Test</title>
+    <style>
+      html, body { margin:0; height:100%; overflow:hidden; }
+    </style>
   </head>
   <body>
-    <a-scene embedded arjs="patterRatio:0.80">
-      <a-marker type="pattern" url="marker2.patt">
-        <a-box position="0 0 0" rotation="0 45 0" color="#4CC3D9"></a-box>
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      renderer="logarithmicDepthBuffer: true"
+      arjs="patternRatio:0.5; sourceType: webcam; debugUIEnabled: false">
+      
+      <!-- Use the stock HIRO pattern to sanity-check -->
+      <a-marker type="pattern" url="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/patt/HIRO.patt">
+        <a-box position="0 0.5 0" rotation="0 45 0" depth="0.5" height="0.5" width="0.5"></a-box>
       </a-marker>
+
       <a-entity camera></a-entity>
     </a-scene>
   </body>

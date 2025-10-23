@@ -4,24 +4,50 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <!-- Use a stable CDN for AR.js -->
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
     <style>
       html,body{margin:0;height:100%;overflow:hidden;}
+      #status {
+        position: fixed; top: 8px; left: 8px; z-index: 9999;
+        background: rgba(0,0,0,.6); color: #fff; padding: 6px 10px; border-radius: 6px;
+        font-family: system-ui, sans-serif; font-size: 14px;
+      }
     </style>
   </head>
   <body>
+    <div id="status">Camera starting…</div>
+
     <a-scene
       embedded
       vr-mode-ui="enabled:false"
       renderer="logarithmicDepthBuffer:true"
-      arjs="sourceType:webcam; facingMode:environment; sourceWidth:1280; sourceHeight:720; displayWidth:1280; displayHeight:720; debugUIEnabled:false;">
+      arjs="sourceType:webcam; facingMode:environment; sourceWidth:1280; sourceHeight:720; displayWidth:1280; displayHeight:720; debugUIEnabled:true;">
       
-      <a-marker type="pattern"
-                url="https://raw.githubusercontent.com/AR-js-org/AR.js/master/data/patt/HIRO.patt">
+      <!-- Built-in HIRO marker (no external .patt URL) -->
+      <a-marker preset="hiro" emitevents="true" id="m">
         <a-box position="0 0.5 0" rotation="0 45 0" color="#4CC3D9"></a-box>
       </a-marker>
 
       <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+      const s = document.getElementById('status');
+      const marker = document.getElementById('m');
+
+      // Scene ready
+      document.querySelector('a-scene').addEventListener('loaded', () => {
+        s.textContent = 'Scene loaded. Point at HIRO marker.';
+      });
+
+      // Marker events
+      marker.addEventListener('markerFound', () => {
+        s.textContent = '✅ Marker FOUND';
+      });
+      marker.addEventListener('markerLost', () => {
+        s.textContent = '❌ Marker LOST — hold steady, good lighting, fill more of the view';
+      });
+    </script>
   </body>
 </html>

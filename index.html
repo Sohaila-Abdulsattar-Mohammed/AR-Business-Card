@@ -79,43 +79,40 @@
     >
       <a-marker type="pattern" url="pattern-ar-marker.patt" id="m">
         <!-- Center (fixed) -->
-        <a-entity position="0 0 0.000" face-camera-yaw>
           <a-image
             id="main"
             src="main.png"
             width="2"
             height="2"
             rotation="0 0 0"
+            position="-90 0 0"
             material="side: double; transparent: true"
           >
           </a-image>
-        </a-entity>
 
         <!-- Left (yaw-locked parent, slight inward tilt on child) -->
-        <a-entity position="-1.9 0 0.01" face-camera-yaw>
           <a-image
             id="linkedin"
             src="linkedin.png"
             width="2"
             height="2"
-            rotation="0 18 0"
+            position="-1.9 0 0"
+            rotation="-90 0 0"
             material="side: double; transparent: true"
           >
           </a-image>
-        </a-entity>
 
         <!-- Right -->
-        <a-entity position="1.9 0 0.02" face-camera-yaw>
           <a-image
             id="github"
             src="github.png"
             width="2"
             height="2"
-            rotation="0 -18 0"
+            position="1.9 0 0"
+            rotation="-90 0 0"
             material="side: double; transparent: true"
           >
           </a-image>
-        </a-entity>
 
         <!-- Up -->
           <a-image
@@ -123,7 +120,7 @@
             src="resume.png"
             width="2"
             height="2"
-            position="0 0 -2.7"
+            position="0 0 -2.5"
             rotation="-90 0 0"
           >
           </a-image>

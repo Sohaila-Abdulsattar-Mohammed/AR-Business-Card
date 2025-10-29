@@ -1,54 +1,80 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
-    <!-- Use a stable CDN for AR.js -->
-    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
-    <style>
-      html,body{margin:0;height:100%;overflow:hidden;}
-      #status {
-        position: fixed; top: 8px; left: 8px; z-index: 9999;
-        background: rgba(0,0,0,.6); color: #fff; padding: 6px 10px; border-radius: 6px;
-        font-family: system-ui, sans-serif; font-size: 14px;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="status">Camera starting…</div>
 
-    <a-scene
-      embedded
-      vr-mode-ui="enabled:false"
-      renderer="logarithmicDepthBuffer:true"
-      arjs="sourceType:webcam; facingMode:environment; sourceWidth:1280; sourceHeight:720; displayWidth:1280; displayHeight:720; debugUIEnabled:true; patternRatio:0.90;"
-      >
-      
-      <!-- Built-in HIRO marker (no external .patt URL) -->
-      <a-marker type="pattern" url="pattern-ar-marker.patt" id="m">
-        <a-image id="main" width="1" height="1" position="0 0 0" rotation="-90 0 0" src="main.png"></a-image>
-      </a-marker>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
+  <!-- Use a stable CDN for AR.js -->
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
+  <style>
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+    }
 
-      <a-entity camera></a-entity>
-    </a-scene>
+    #status {
+      position: fixed;
+      top: 8px;
+      left: 8px;
+      z-index: 9999;
+      background: rgba(0, 0, 0, .6);
+      color: #fff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+    }
+  </style>
+</head>
 
-    <script>
-      const s = document.getElementById('status');
-      const marker = document.getElementById('m');
+<body>
+  <div id="status">Camera starting…</div>
 
-      // Scene ready
-      document.querySelector('a-scene').addEventListener('loaded', () => {
-        s.textContent = 'Scene loaded. Point at HIRO marker.';
-      });
+  <a-scene embedded vr-mode-ui="enabled:false" renderer="logarithmicDepthBuffer:true"
+    arjs="sourceType:webcam; facingMode:environment; sourceWidth:1280; sourceHeight:720; displayWidth:1280; displayHeight:720; debugUIEnabled:true; patternRatio:0.90;">
 
-      // Marker events
-      marker.addEventListener('markerFound', () => {
-        s.textContent = '✅ Marker FOUND';
-      });
-      marker.addEventListener('markerLost', () => {
-        s.textContent = '❌ Marker LOST — hold steady, good lighting, fill more of the view';
-      });
-    </script>
-  </body>
+    <!-- Built-in HIRO marker (no external .patt URL) -->
+    <a-marker type="pattern" url="pattern-ar-marker.patt" id="m">
+      <!-- Center -->
+      <a-image id="main" src="main.png" width="1" height="1" position="0 0 0" rotation="0 0 0"></a-image>
+
+      <!-- Left -->
+      <a-image id="linkedin" src="linkedin.png" width="1" height="1" position="-1.2 0 0" rotation="0 0 0"></a-image>
+
+      <!-- Right -->
+      <a-image id="github" src="github.png" width="1" height="1" position="1.2 0 0" rotation="0 0 0"></a-image>
+
+      <!-- Up -->
+      <a-image id="resume" src="resume.png" width="1" height="1" position="0 1.2 0" rotation="0 0 0"></a-image>
+
+      <!-- Down -->
+      <a-image id="transcript" src="transcript.png" width="1" height="1" position="0 -1.2 0" rotation="0 0 0"></a-image>
+    </a-marker>
+
+
+    <a-entity camera></a-entity>
+  </a-scene>
+
+  <script>
+    const s = document.getElementById('status');
+    const marker = document.getElementById('m');
+
+    // Scene ready
+    document.querySelector('a-scene').addEventListener('loaded', () => {
+      s.textContent = 'Scene loaded. Point at HIRO marker.';
+    });
+
+    // Marker events
+    marker.addEventListener('markerFound', () => {
+      s.textContent = '✅ Marker FOUND';
+    });
+    marker.addEventListener('markerLost', () => {
+      s.textContent = '❌ Marker LOST — hold steady, good lighting, fill more of the view';
+    });
+  </script>
+</body>
+
 </html>

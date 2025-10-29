@@ -10,11 +10,23 @@
     <!-- Stable AR.js build -->
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
     <style>
-      html, body { margin: 0; height: 100%; overflow: hidden; }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+      }
       #status {
-        position: fixed; top: 8px; left: 8px; z-index: 9999;
-        background: rgba(0,0,0,.6); color: #fff; padding: 6px 10px; border-radius: 6px;
-        font-family: system-ui, sans-serif; font-size: 14px;
+        position: fixed;
+        top: 8px;
+        left: 8px;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-family: system-ui, sans-serif;
+        font-size: 14px;
       }
     </style>
     <script>
@@ -24,8 +36,10 @@
           const cam = this.el.sceneEl.camera;
           if (!cam) return;
           const obj = this.el.object3D;
-          const p = new THREE.Vector3(), c = new THREE.Vector3();
-          obj.getWorldPosition(p); cam.getWorldPosition(c);
+          const p = new THREE.Vector3(),
+            c = new THREE.Vector3();
+          obj.getWorldPosition(p);
+          cam.getWorldPosition(c);
           c.y = p.y; // ignore vertical delta to prevent roll/pitch flips
           obj.lookAt(c);
         },
@@ -39,46 +53,71 @@
       embedded
       vr-mode-ui="enabled:false"
       renderer="logarithmicDepthBuffer:true"
-      arjs="sourceType:webcam; facingMode:environment; sourceWidth:1280; sourceHeight:720; displayWidth:1280; displayHeight:720; debugUIEnabled:true; patternRatio:0.9;"
+      arjs="sourceType:webcam; facingMode:environment; sourceWidth:1280; sourceHeight:720; displayWidth:1280; displayHeight:720; debugUIEnabled:true; patternRatio:0.90;"
     >
       <a-marker type="pattern" url="pattern-ar-marker.patt" id="m">
-        <!-- Center -->
-        <a-entity position="0 0 0" face-camera-yaw>
-          <a-image id="main" src="main.png"
-                   width="2" height="2" rotation="0 0 0"
-                   material="side: double; transparent: true; polygonOffset: true; polygonOffsetFactor: 1; polygonOffsetUnits: 1">
+        <!-- Center (fixed) -->
+        <a-entity position="0 0 0.000" face-camera-yaw>
+          <a-image
+            id="main"
+            src="main.png"
+            width="2"
+            height="2"
+            rotation="0 0 0"
+            material="side: double; transparent: true"
+          >
           </a-image>
         </a-entity>
 
-        <!-- Left -->
-        <a-entity position="-1.85 0 0" face-camera-yaw>
-          <a-image id="linkedin" src="linkedin.png"
-                   width="1.8" height="1.8" rotation="0 18 0"
-                   material="side: double; transparent: true; polygonOffset: true; polygonOffsetFactor: 1; polygonOffsetUnits: 1">
+        <!-- Left (yaw-locked parent, slight inward tilt on child) -->
+        <a-entity position="-1.9 0 0.01" face-camera-yaw>
+          <a-image
+            id="linkedin"
+            src="linkedin.png"
+            width="2"
+            height="2"
+            rotation="0 18 0"
+            material="side: double; transparent: true"
+          >
           </a-image>
         </a-entity>
 
         <!-- Right -->
-        <a-entity position="1.85 0 0" face-camera-yaw>
-          <a-image id="github" src="github.png"
-                   width="1.8" height="1.8" rotation="0 -18 0"
-                   material="side: double; transparent: true; polygonOffset: true; polygonOffsetFactor: 1; polygonOffsetUnits: 1">
+        <a-entity position="1.9 0 0.02" face-camera-yaw>
+          <a-image
+            id="github"
+            src="github.png"
+            width="2"
+            height="2"
+            rotation="0 -18 0"
+            material="side: double; transparent: true"
+          >
           </a-image>
         </a-entity>
 
-        <!-- Up (slightly closer to center and a hair smaller) -->
-        <a-entity position="0 1.85 0" face-camera-yaw>
-          <a-image id="resume" src="resume.png"
-                   width="1.7" height="1.7" rotation="-18 0 0"
-                   material="side: double; transparent: true; polygonOffset: true; polygonOffsetFactor: 1; polygonOffsetUnits: 1">
+        <!-- Up -->
+        <a-entity position="0 1.9 0.03" face-camera-yaw>
+          <a-image
+            id="resume"
+            src="resume.png"
+            width="2"
+            height="2"
+            rotation="-18 0 0"
+            material="side: double; transparent: true"
+          >
           </a-image>
         </a-entity>
 
         <!-- Down -->
-        <a-entity position="0 -1.85 0" face-camera-yaw>
-          <a-image id="transcript" src="transcript.png"
-                   width="1.7" height="1.7" rotation="18 0 0"
-                   material="side: double; transparent: true; polygonOffset: true; polygonOffsetFactor: 1; polygonOffsetUnits: 1">
+        <a-entity position="0 -1.9 0.04" face-camera-yaw>
+          <a-image
+            id="transcript"
+            src="transcript.png"
+            width="2"
+            height="2"
+            rotation="18 0 0"
+            material="side: double; transparent: true"
+          >
           </a-image>
         </a-entity>
       </a-marker>

@@ -43,17 +43,12 @@
         </a-image>
 
         <!-- Left (yaw-locked parent, slight inward tilt on child) -->
-        <a-image
-          id="linkedin"
-          src="linkedin.png"
-          width="2"
-          height="2"
-          position="-1.9 0 0"
-          rotation="-90 -0 0"
-          material="side: double; transparent: true"
-          link="href: https://www.linkedin.com/in/sohaila-abdulsattar-mohammed/"
-        >
-        </a-image>
+        <a-entity position="-1.9 0 0" rotation="-90 0 0">
+          <a-entity rotation="0 0 12"> <!-- +Z = roll so right edge dips -->
+            <a-image id="linkedin" src="linkedin.png" width="2" height="2"
+                     material="side: double; transparent: true"></a-image>
+          </a-entity>
+        </a-entity>
 
         <!-- Right -->
         <a-image

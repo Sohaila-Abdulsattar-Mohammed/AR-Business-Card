@@ -44,6 +44,32 @@
           obj.lookAt(c);
         },
       });
+
+      // Face camera component for top/bottom cards that handles vertical positioning
+      AFRAME.registerComponent("face-camera-vertical", {
+        tick: function () {
+          const cam = this.el.sceneEl.camera;
+          if (!cam) return;
+          const obj = this.el.object3D;
+          const p = new THREE.Vector3(),
+            c = new THREE.Vector3();
+          obj.getWorldPosition(p);
+          cam.getWorldPosition(c);
+          
+          // Calculate direction to camera
+          const direction = new THREE.Vector3().subVectors(c, p).normalize();
+          
+          // Calculate yaw (horizontal rotation) and pitch (vertical rotation)
+          const yaw = Math.atan2(direction.x, direction.z);
+          const pitch = Math.atan2(-direction.y, Math.sqrt(direction.x * direction.x + direction.z * direction.z));
+          
+          // Apply rotation with limits to prevent flipping
+          const maxPitch = Math.PI / 4; // 45 degrees max pitch
+          const clampedPitch = Math.max(-maxPitch, Math.min(maxPitch, pitch));
+          
+          obj.rotation.set(clampedPitch, yaw, 0);
+        },
+      });
     </script>
   </head>
   <body>
@@ -96,7 +122,7 @@
         </a-entity>
 
         <!-- Up -->
-        <a-entity position="0 1.9 0.03">
+        <a-entity position="0 1.9 0.03" face-camera-vertical>
           <a-image
             id="resume"
             src="resume.png"
@@ -109,7 +135,7 @@
         </a-entity>
 
         <!-- Down -->
-        <a-entity position="0 -1.9 0.04">
+        <a-entity position="0 -1.9 0.04" face-camera-vertical>
           <a-image
             id="transcript"
             src="transcript.png"

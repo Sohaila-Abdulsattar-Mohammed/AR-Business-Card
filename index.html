@@ -9,8 +9,7 @@
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
     <!-- Stable AR.js build -->
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
-    <script src="https://unpkg.com/aframe-look-at-component@1.0.0/dist/aframe-look-at-component.min.js"></script>
-
+    
   </head>
   <body>
     <div id="status">Camera starting…</div>
@@ -19,7 +18,7 @@
       embedded
       vr-mode-ui="enabled:false"
       renderer="logarithmicDepthBuffer:true"
-      arjs="sourceType:webcam; facingMode:environment; sourceWidth:1280; sourceHeight:720; displayWidth:1280; displayHeight:720; debugUIEnabled:true; patternRatio:0.90;"
+      arjs="sourceType:webcam; facingMode:environment; sourceWidth:1280; sourceHeight:720; displayWidth:1280; displayHeight:720; debugUIEnabled:true; patternRatio:0.90; smooth:true; smoothCount:5; smoothTolerance:0.01; smoothThreshold:2;"
     >
       <a-marker type="pattern" url="pattern-ar-marker.patt" id="m">
         <!-- Center (fixed) -->
@@ -31,7 +30,6 @@
             rotation="-90 0 0"
             position="0 0 0"
             material="side: double; transparent: true"
-            look-at="#camera"
           >
           </a-image>
 
@@ -44,7 +42,6 @@
             position="-1.9 0 0"
             rotation="-90 -0 0"
             material="side: double; transparent: true"
-            look-at="#camera"
           >
           </a-image>
 
@@ -57,7 +54,6 @@
             position="1.9 0 0"
             rotation="-90 0 0"
             material="side: double; transparent: true"
-            look-at="#camera"
           >
           </a-image>
 
@@ -69,7 +65,6 @@
             height="2"
             position="0 0 -2.5"
             rotation="-90 0 0"
-            look-at="#camera"
           >
           </a-image>
 
@@ -82,12 +77,11 @@
             position="0 0 2.5"
             rotation="-90 0 0"
             material="side: double; transparent: true"
-            look-at="#camera"
           >
           </a-image>
       </a-marker>
 
-      <a-entity camera id="camera"></a-entity>
+      <a-entity camera></a-entity>
     </a-scene>
 
     <script>

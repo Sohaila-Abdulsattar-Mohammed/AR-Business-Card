@@ -45,7 +45,7 @@
         },
       });
 
-      // Face camera component for top/bottom cards that handles vertical positioning
+      // Face camera component for top/bottom cards - yaw only to prevent flipping
       AFRAME.registerComponent("face-camera-vertical", {
         tick: function () {
           const cam = this.el.sceneEl.camera;
@@ -56,18 +56,14 @@
           obj.getWorldPosition(p);
           cam.getWorldPosition(c);
           
-          // Calculate direction to camera
-          const direction = new THREE.Vector3().subVectors(c, p).normalize();
+          // Only calculate yaw (horizontal rotation), ignore vertical movement
+          // This prevents flipping while keeping cards facing camera horizontally
+          const dx = c.x - p.x;
+          const dz = c.z - p.z;
+          const yaw = Math.atan2(dx, dz);
           
-          // Calculate yaw (horizontal rotation) and pitch (vertical rotation)
-          const yaw = Math.atan2(direction.x, direction.z);
-          const pitch = Math.atan2(-direction.y, Math.sqrt(direction.x * direction.x + direction.z * direction.z));
-          
-          // Apply rotation with limits to prevent flipping
-          const maxPitch = Math.PI / 4; // 45 degrees max pitch
-          const clampedPitch = Math.max(-maxPitch, Math.min(maxPitch, pitch));
-          
-          obj.rotation.set(clampedPitch, yaw, 0);
+          // Keep original pitch and roll, only adjust yaw
+          obj.rotation.set(obj.rotation.x, yaw, obj.rotation.z);
         },
       });
     </script>

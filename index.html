@@ -30,7 +30,14 @@
         smoothThreshold="2"
         minConfidence="0.2"
       >
-        <!-- Center (fixed) -->
+      </a-marker>
+
+      <!-- Follows the marker pose with smoothing and debounced hide -->
+      <a-entity
+        id="cards"
+        follow-marker-smooth="target:#m; lostDelayMs:250; lerpPos:0.25; slerpRot:0.25"
+      >
+        <!-- Center -->
         <a-image
           id="main"
           src="main.png"
@@ -42,14 +49,14 @@
         >
         </a-image>
 
-        <!-- Left (yaw-locked parent, slight inward tilt on child) -->
+        <!-- Left -->
         <a-image
           id="linkedin"
           src="linkedin.png"
           width="2"
           height="2"
           position="-1.9 0 0"
-          rotation="-90 -0 0"
+          rotation="-90 0 0"
           material="side: double; transparent: true"
         >
         </a-image>
@@ -88,12 +95,80 @@
           material="side: double; transparent: true"
         >
         </a-image>
-      </a-marker>
+      </a-entity>
 
       <a-entity camera></a-entity>
     </a-scene>
 
     <script>
+      // Debounce + smoothing follower (copies full pose; no rotation tricks)
+      AFRAME.registerComponent("follow-marker-smooth", {
+        schema: {
+          target: { type: "selector" }, // <a-marker>
+          lostDelayMs: { default: 250 }, // wait before hiding after markerLost
+          lerpPos: { default: 0.25 }, // 0..1 per frame (higher = snappier)
+          slerpRot: { default: 0.25 }, // 0..1 per frame
+        },
+        init() {
+          this.goalPos = new THREE.Vector3();
+          this.goalQuat = new THREE.Quaternion();
+          this.tmpPos = new THREE.Vector3();
+          this.tmpQuat = new THREE.Quaternion();
+          this._hideTimer = null;
+          this._visible = false;
+
+          const t = this.data.target;
+          if (t) {
+            t.addEventListener("markerFound", () => {
+              this._clearHideTimer();
+              this._visible = true;
+              this.el.setAttribute("visible", true);
+            });
+            t.addEventListener("markerLost", () => {
+              this._clearHideTimer();
+              this._hideTimer = setTimeout(() => {
+                if (!t.object3D.visible) {
+                  this._visible = false;
+                  this.el.setAttribute("visible", false);
+                }
+              }, this.data.lostDelayMs);
+            });
+          }
+          // Start hidden until first detection
+          this.el.setAttribute("visible", false);
+        },
+        _clearHideTimer() {
+          if (this._hideTimer) {
+            clearTimeout(this._hideTimer);
+            this._hideTimer = null;
+          }
+        },
+        tick() {
+          const t = this.data.target;
+          if (!t) return;
+
+          // If currently detected, update goal pose & ensure visible (debounced)
+          if (t.object3D.visible) {
+            t.object3D.getWorldPosition(this.goalPos);
+            t.object3D.getWorldQuaternion(this.goalQuat);
+
+            if (!this._visible) {
+              this._visible = true;
+              this.el.setAttribute("visible", true);
+              this._clearHideTimer();
+            }
+          }
+
+          if (!this._visible) return;
+
+          // Smoothly approach the latest goal pose
+          const o = this.el.object3D;
+          o.position.lerp(this.goalPos, this.data.lerpPos);
+          o.quaternion.slerp(this.goalQuat, this.data.slerpRot);
+        },
+      });
+
+      // Your existing status text handlers (unchanged)
       const s = document.getElementById("status");
       const marker = document.getElementById("m");
 

@@ -9,64 +9,6 @@
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
     <!-- Stable AR.js build -->
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
-    <style>
-      html,
-      body {
-        margin: 0;
-        height: 100%;
-        overflow: hidden;
-      }
-      #status {
-        position: fixed;
-        top: 8px;
-        left: 8px;
-        z-index: 9999;
-        background: rgba(0, 0, 0, 0.6);
-        color: #fff;
-        padding: 6px 10px;
-        border-radius: 6px;
-        font-family: system-ui, sans-serif;
-        font-size: 14px;
-      }
-    </style>
-    <script>
-      // Keep icons upright to camera (yaw-only), so they won't flip.
-      AFRAME.registerComponent("face-camera-yaw", {
-        tick: function () {
-          const cam = this.el.sceneEl.camera;
-          if (!cam) return;
-          const obj = this.el.object3D;
-          const p = new THREE.Vector3(),
-            c = new THREE.Vector3();
-          obj.getWorldPosition(p);
-          cam.getWorldPosition(c);
-          c.y = p.y; // ignore vertical delta to prevent roll/pitch flips
-          obj.lookAt(c);
-        },
-      });
-
-      // Face camera component for top/bottom cards - yaw only to prevent flipping
-      AFRAME.registerComponent("face-camera-vertical", {
-        tick: function () {
-          const cam = this.el.sceneEl.camera;
-          if (!cam) return;
-          const obj = this.el.object3D;
-          const p = new THREE.Vector3(),
-            c = new THREE.Vector3();
-          obj.getWorldPosition(p);
-          cam.getWorldPosition(c);
-          
-          // Only calculate yaw (horizontal rotation), ignore vertical movement
-          // This prevents flipping while keeping cards facing camera horizontally
-          const dx = c.x - p.x;
-          const dz = c.z - p.z;
-          const yaw = Math.atan2(dx, dz);
-          
-          // Keep original pitch and roll, only adjust yaw
-          obj.rotation.set(obj.rotation.x, yaw, obj.rotation.z);
-        },
-      });
-    </script>
   </head>
   <body>
     <div id="status">Camera starting…</div>
@@ -97,7 +39,7 @@
             width="2"
             height="2"
             position="-1.9 0 0"
-            rotation="-90 -10 0"
+            rotation="-90 -0 0"
             material="side: double; transparent: true"
           >
           </a-image>
@@ -109,7 +51,7 @@
             width="2"
             height="2"
             position="1.9 0 0"
-            rotation="-90 10 0"
+            rotation="-90 0 0"
             material="side: double; transparent: true"
           >
           </a-image>

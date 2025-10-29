@@ -9,7 +9,6 @@
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
     <!-- Stable AR.js build -->
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
-    
   </head>
   <body>
     <div id="status">Camera starting…</div>
@@ -18,67 +17,77 @@
       embedded
       vr-mode-ui="enabled:false"
       renderer="logarithmicDepthBuffer:true"
-      arjs="sourceType:webcam; facingMode:environment; sourceWidth:1280; sourceHeight:720; displayWidth:1280; displayHeight:720; debugUIEnabled:true; patternRatio:0.90; smooth:true; smoothCount:5; smoothTolerance:0.01; smoothThreshold:2;"
+      arjs="sourceType:webcam; facingMode:environment; sourceWidth:1280; sourceHeight:720; displayWidth:1280; displayHeight:720; debugUIEnabled:true; patternRatio:0.90;"
     >
-      <a-marker type="pattern" url="pattern-ar-marker.patt" id="m">
+      <a-marker
+        type="pattern"
+        url="pattern-ar-marker.patt"
+        id="m"
+        emitevents="true"
+        smooth="true"
+        smoothCount="10"
+        smoothTolerance="0.01"
+        smoothThreshold="2"
+        minConfidence="0.2"
+      >
         <!-- Center (fixed) -->
-          <a-image
-            id="main"
-            src="main.png"
-            width="2"
-            height="2"
-            rotation="-90 0 0"
-            position="0 0 0"
-            material="side: double; transparent: true"
-          >
-          </a-image>
+        <a-image
+          id="main"
+          src="main.png"
+          width="2"
+          height="2"
+          rotation="-90 0 0"
+          position="0 0 0"
+          material="side: double; transparent: true"
+        >
+        </a-image>
 
         <!-- Left (yaw-locked parent, slight inward tilt on child) -->
-          <a-image
-            id="linkedin"
-            src="linkedin.png"
-            width="2"
-            height="2"
-            position="-1.9 0 0"
-            rotation="-90 -0 0"
-            material="side: double; transparent: true"
-          >
-          </a-image>
+        <a-image
+          id="linkedin"
+          src="linkedin.png"
+          width="2"
+          height="2"
+          position="-1.9 0 0"
+          rotation="-90 -0 0"
+          material="side: double; transparent: true"
+        >
+        </a-image>
 
         <!-- Right -->
-          <a-image
-            id="github"
-            src="github.png"
-            width="2"
-            height="2"
-            position="1.9 0 0"
-            rotation="-90 0 0"
-            material="side: double; transparent: true"
-          >
-          </a-image>
+        <a-image
+          id="github"
+          src="github.png"
+          width="2"
+          height="2"
+          position="1.9 0 0"
+          rotation="-90 0 0"
+          material="side: double; transparent: true"
+        >
+        </a-image>
 
         <!-- Up -->
-          <a-image
-            id="resume"
-            src="resume.png"
-            width="2"
-            height="2"
-            position="0 0 -2.5"
-            rotation="-90 0 0"
-          >
-          </a-image>
+        <a-image
+          id="resume"
+          src="resume.png"
+          width="2"
+          height="2"
+          position="0 0 -2.5"
+          rotation="-90 0 0"
+        >
+        </a-image>
 
         <!-- Down -->
-          <a-image
-            id="transcript"
-            src="transcript.png"
-            width="2"
-            height="2"
-            position="0 0 2.5"
-            rotation="-90 0 0"
-            material="side: double; transparent: true"
-          >
-          </a-image>
+        <a-image
+          id="transcript"
+          src="transcript.png"
+          width="2"
+          height="2"
+          position="0 0 2.5"
+          rotation="-90 0 0"
+          material="side: double; transparent: true"
+        >
+        </a-image>
       </a-marker>
 
       <a-entity camera></a-entity>

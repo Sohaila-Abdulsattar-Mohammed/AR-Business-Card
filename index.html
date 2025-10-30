@@ -103,22 +103,5 @@
 
       <a-entity camera cursor="fuse:false; rayOrigin:mouse"></a-entity>
     </a-scene>
-
-    <script>
-      const s = document.getElementById("status");
-      const marker = document.getElementById("m");
-
-      document.querySelector("a-scene").addEventListener("loaded", () => {
-        s.textContent = "Scene loaded. Point at your marker.";
-      });
-
-      marker.addEventListener("markerFound", () => {
-        s.textContent = "✅ Marker FOUND";
-      });
-      marker.addEventListener("markerLost", () => {
-        s.textContent =
-          "❌ Marker LOST — hold steady, good lighting, fill more of the view";
-      });
-    </script>
   </body>
 </html>

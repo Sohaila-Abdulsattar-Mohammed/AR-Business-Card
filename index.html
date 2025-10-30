@@ -56,28 +56,17 @@
         
 
         <!-- Right -->
-        <!-- Right -->
-<a-entity position="2.1 0 0" rotation="-90 0 0">
-  <!-- Visual -->
-  <a-image
-    id="github"
-    src="github.png"
-    width="2"
-    height="2"
-    material="transparent:true"
-  ></a-image>
-
-  <!-- Invisible collider slightly above the marker plane -->
-  <a-plane
-    class="clickable"
-    width="2"
-    height="2"
-    position="0 0.02 0"
-    material="opacity:0; transparent:true; side:front"
-    link="href:https://github.com/Sohaila-Abdulsattar-Mohammed"
-  ></a-plane>
-</a-entity>
-
+        <a-image
+          id="github"
+          src="github.png"
+          width="2"
+          height="2"
+          position="2.1 0.01 0"
+          rotation="-90 0 0"
+          link="href: https://github.com/Sohaila-Abdulsattar-Mohammed"
+          class="clickable"
+        >
+        </a-image>
 
         <!-- Up -->
         <a-image
